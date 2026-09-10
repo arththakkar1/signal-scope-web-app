@@ -1,15 +1,46 @@
-# Getting Started
+# Getting Started Tutorial
 
-## 1. Setup Environment
-Clone the repository and install dependencies.
-`pip install -r requirements.txt`
+Welcome to SignalScope! This tutorial will guide you through setting up your environment, running a baseline model, and testing the system with a single image.
 
-## 2. Baseline Model
-Start with a reproducible transfer-learning baseline (e.g., ResNet or ViT).
-Train on the provided CIFAKE-style dataset.
+## 1. Setup Flowchart
 
-## 3. Run Inference
-Use the `predict/` module to run the detector on a new image.
+```mermaid
+flowchart TD
+    A[Install Python 3.10+] --> B[Clone Git Repo]
+    B --> C[Create Virtual Env]
+    C --> D[Install requirements.txt]
+    D --> E[Run predict.py on sample image]
+```
 
-## 4. Track Experiments
-Keep track of your training splits, augmentations, and ROC-AUC scores for each run.
+## 2. Step-by-Step Instructions
+
+**Step 1: Clone the Repository**
+```bash
+git clone https://github.com/arththakkar1/signal-scope-web-app.git
+cd signal-scope-web-app
+```
+
+**Step 2: Create a Virtual Environment**
+It is highly recommended to isolate your dependencies.
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+**Step 3: Install Dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**Step 4: Run a Prediction**
+We have provided a sample script to test the model on a single image.
+```bash
+python model/predict/predict.py --image sample.jpg
+```
+*Expected Output:*
+```json
+{
+  "verdict": "Likely AI-generated",
+  "confidence": 0.92
+}
+```

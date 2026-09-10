@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "convert-documents-to-markdown": {
+      "source": "firecrawl/anydoc",
+      "sourceType": "github",
+      "skillPath": "skills/convert-documents-to-markdown/SKILL.md",
+      "computedHash": "f5cf8f73b291fd0e29adb9a762dcda267245b44ffbdabc3321771aac1c41fb11"
+    },
+    "documentation-writer": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/documentation-writer/SKILL.md",
+      "computedHash": "ee53d65b163cd7eb953a930c95841cfe398cc2c0bd24c06508bbaa07c432be35"
+    }
+  }
+}
