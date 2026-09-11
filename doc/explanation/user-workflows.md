@@ -13,7 +13,7 @@ sequenceDiagram
     participant Explainer
     
     User->>Frontend UI: Uploads Image
-    Frontend UI->>Backend API: POST /predict (Image)
+    Frontend UI->>Backend API: POST /api/predict/ (Image)
     Backend API->>Backend API: Validate & Pre-process
     Backend API->>ML Model: Request inference
     ML Model-->>Backend API: Return baseline probabilities
