@@ -1,0 +1,9 @@
+jax
+jaxlib
+flax
+optax
+torch
+torchvision
+scikit-learn
+Pillow
+pytest

@@ -7,11 +7,23 @@
       "skillPath": "skills/convert-documents-to-markdown/SKILL.md",
       "computedHash": "f5cf8f73b291fd0e29adb9a762dcda267245b44ffbdabc3321771aac1c41fb11"
     },
+    "deep-learning": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "deep-learning/SKILL.md",
+      "computedHash": "14793a3ff3a5e6e800e1f63ceee1f4ec6796c7be8095f4528f2fbb6e3192d6e2"
+    },
     "documentation-writer": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
       "skillPath": "skills/documentation-writer/SKILL.md",
       "computedHash": "ee53d65b163cd7eb953a930c95841cfe398cc2c0bd24c06508bbaa07c432be35"
+    },
+    "machine-learning": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "machine-learning/SKILL.md",
+      "computedHash": "b0fe8b1636aa174bda1bab2aa3e4d287adc1888d79011d938e1319aee8fc6763"
     }
   }
 }
