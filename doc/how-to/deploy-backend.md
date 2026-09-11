@@ -15,7 +15,8 @@ flowchart TD
 ```
 
 ## 2. Steps
-1. **Environment Setup:** 
+
+1. **Environment Setup:**
    ```bash
    python -m venv venv
    source venv/bin/activate
