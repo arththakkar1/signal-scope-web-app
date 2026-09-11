@@ -22,7 +22,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser. By default, requests go to `http://localhost:8000/api`. Set `NEXT_PUBLIC_API_URL` in `.env.local` to target another Django deployment.
 
-The current detector is an untrained development baseline. The UI deliberately displays this limitation and must not be presented as a production authenticity detector.
+The current detector is a development baseline that loads a PyTorch/ResNet18 checkpoint when one is available. The UI deliberately displays this limitation and must not be presented as a production authenticity detector.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

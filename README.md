@@ -5,6 +5,7 @@ Telling Real From Synthetic in the Age of Generative Media.
 SignalScope is a system designed to accept an image and classify it as **Real** or **AI-generated**. Built for the SIH 2026 Challenge (Problem Statement 2), this system focuses on generalization to unseen generators, maintaining high performance on synthetic images from generators not seen during training.
 
 ## Table of Contents
+
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
 - [Repository Structure](#repository-structure)
@@ -61,14 +62,14 @@ SignalScope/
 
 ## Core and Bonus Modules
 
-- [x] **Baseline integration:** Django exposes the JAX/Flax detector and the frontend can submit an image to it.
+- [x] **Baseline integration:** Django exposes the PyTorch/ResNet18 detector and the frontend can submit an image to it.
 - [ ] **Module A - Faithful Explanation:** Heat-map and text-based explanations of visual cues.
 - [ ] **Module C - Robustness to Degradation:** Ensuring high performance against JPEG compression, resizing, and screenshots.
 - [x] **Module F - Basic interface:** Responsible upload-and-result web UI.
 
-> **Current model status:** The connected API initializes an untrained `SimpleCNN` baseline. Its responses exercise the complete integration but are not valid detection results. Trained checkpoint loading, calibration, and evaluation are still required before use outside development.
+> **Current model status:** The connected API loads a PyTorch/ResNet18 checkpoint when one is present. If no trained checkpoint exists yet, the API still exercises the full request path but should be treated as a development baseline, not a production detector.
 
-*(Checkboxes indicate currently implemented or planned features).*
+_(Checkboxes indicate currently implemented or planned features)._
 
 ---
 
@@ -79,19 +80,21 @@ SignalScope/
 - **Training Strategy:** Transfer learning using robust CV backbones, with heavy data augmentation to improve generalization.
 
 ### Placeholder Results
-| Metric | Score |
-| ------ | ----- |
-| Overall AUC | *TBD* |
-| Unseen-generator AUC | *TBD* |
-| Macro-F1 | *TBD* |
-| Accuracy (at optimal threshold) | *TBD* |
-| False-Positive Rate | *TBD* |
+
+| Metric                          | Score |
+| ------------------------------- | ----- |
+| Overall AUC                     | _TBD_ |
+| Unseen-generator AUC            | _TBD_ |
+| Macro-F1                        | _TBD_ |
+| Accuracy (at optimal threshold) | _TBD_ |
+| False-Positive Rate             | _TBD_ |
 
 ---
 
 ## Setup & Run Instructions
 
 ### 1. Clone and Install Dependencies
+
 ```bash
 git clone https://github.com/arththakkar1/signal-scope-web-app.git
 cd signal-scope-web-app
@@ -99,12 +102,15 @@ pip install -r requirements.txt
 ```
 
 ### 2. Run the Django API and Web Interface
+
 In one terminal:
+
 ```bash
 python3 backend/manage.py runserver 8000
 ```
 
 In another terminal:
+
 ```bash
 cd frontend
 npm install
@@ -114,6 +120,7 @@ npm run dev
 Open `http://localhost:3000`. The frontend sends `multipart/form-data` to Django at `http://localhost:8000/api/predict/`. To use a different API address, set `NEXT_PUBLIC_API_URL` in `frontend/.env.local`.
 
 ### 3. Run Predictions
+
 Use the web interface above or send an image with the `image` multipart field to `POST /api/predict/`.
 
 ---
@@ -121,11 +128,14 @@ Use the web interface above or send an image with the `image` multipart field to
 ## Robustness & Limitations
 
 ### Robustness
+
 We actively test against common image degradations:
+
 - **JPEG Compression:** Maintaining performance across quality levels.
 - **Resizing & Screenshots:** Ensuring artifact-based detection doesn't fail on scaled images.
 
 ### Known Limitations
+
 - The model may struggle with highly compressed images or novel generators that do not exhibit standard spectral artifacts.
 - It is not designed to authenticate real-world events or verify the identity of specific people (face-swap deepfakes).
 

@@ -1,33 +1,58 @@
-import os
-import jax
-import sys
-import numpy as np
-import pytest
+from io import BytesIO
 
-# Add project root to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import torch
+from PIL import Image
 
-from src.data.genimage_loader import get_dataloaders
-from model.training.train import create_train_state, train_step
-from model.inference.evaluate import evaluate_model
+from detector import services
+from model.training.cifake_model import build_model, evaluation_transform
 
-def test_pipeline_end_to_end(tmpdir):
-    """Tests the full JAX/Flax pipeline on a small dummy dataset."""
-    data_dir = os.path.join(tmpdir, "dummy_genimage")
-    train_loader, val_loader = get_dataloaders(data_dir, batch_size=4, img_size=224)
-    
-    rng = jax.random.PRNGKey(0)
-    state = create_train_state(rng, learning_rate=1e-3)
-    
-    # Test one training step
-    batch = next(iter(train_loader))
-    state, metrics = train_step(state, batch)
-    
-    assert 'loss' in metrics
-    assert 'accuracy' in metrics
-    assert not np.isnan(metrics['loss'])
-    
-    # Test evaluation
-    eval_metrics = evaluate_model(state, val_loader)
-    assert 'roc_auc' in eval_metrics
-    assert 'macro_f1' in eval_metrics
+
+def make_image_bytes() -> bytes:
+    image = Image.new("RGB", (32, 32), color=(120, 120, 120))
+    buffer = BytesIO()
+    image.save(buffer, format="PNG")
+    return buffer.getvalue()
+
+
+def test_build_model_exposes_two_output_classes():
+    model = build_model(pretrained=False)
+
+    assert model.fc.out_features == 2
+
+
+def test_evaluation_transform_produces_model_input_shape():
+    tensor = evaluation_transform()(Image.new("RGB", (24, 24), color=(255, 255, 255)))
+
+    assert tensor.shape == (3, 224, 224)
+    assert tensor.dtype == torch.float32
+
+
+def test_classify_image_loads_checkpoint_and_returns_prediction(tmp_path, monkeypatch):
+    checkpoint_file = tmp_path / "cifake_resnet18.pt"
+    reference_model = build_model(pretrained=False)
+    torch.save({"model_state_dict": reference_model.state_dict()}, checkpoint_file)
+
+    monkeypatch.setattr(services, "checkpoint_path", lambda: checkpoint_file)
+    monkeypatch.setattr(services, "_MODEL", None)
+
+    result = services.classify_image(make_image_bytes())
+
+    assert result["threshold_used"] == 0.5
+    assert result["is_trained_model"] is True
+    assert set(result) >= {
+        "verdict",
+        "confidence",
+        "ai_probability",
+        "real_probability",
+        "threshold_used",
+        "is_trained_model",
+    }
+
+
+def test_preprocess_image_rejects_invalid_bytes():
+    try:
+        services.preprocess_image(b"not-an-image")
+    except ValueError as error:
+        assert "valid image" in str(error)
+    else:
+        raise AssertionError("Invalid input bytes should raise ValueError")

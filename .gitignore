@@ -40,4 +40,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Downloaded ML datasets and trained checkpoints can be regenerated.
+/data/
+/model/checkpoints/
 next-env.d.ts

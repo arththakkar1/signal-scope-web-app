@@ -29,6 +29,25 @@ class DetectorApiTests(TestCase):
         self.assertEqual(response.json()["verdict"], "Likely real")
         classify_image.assert_called_once_with(b"image-bytes")
 
+    @patch("detector.views.classify_image")
+    def test_explain_returns_prediction_with_visual_cues(self, classify_image):
+        classify_image.return_value = {
+            "verdict": "Likely AI-generated",
+            "confidence": 88.0,
+            "ai_probability": 88.0,
+            "real_probability": 12.0,
+            "threshold_used": 0.5,
+            "is_trained_model": True,
+        }
+        image = SimpleUploadedFile("sample.png", b"image-bytes", content_type="image/png")
+
+        response = self.client.post("/api/explain/", {"image": image})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("visual_cues", response.json())
+        self.assertGreaterEqual(len(response.json()["visual_cues"]), 2)
+        classify_image.assert_called_once_with(b"image-bytes")
+
     def test_predict_requires_image(self):
         response = self.client.post("/api/predict/")
 

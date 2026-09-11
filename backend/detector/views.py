@@ -40,6 +40,8 @@ def predict(request: HttpRequest) -> JsonResponse:
         return _json_response(classify_image(image.read()))
     except ValueError as error:
         return _json_response({"detail": str(error)}, 400)
+    except FileNotFoundError as error:
+        return _json_response({"detail": str(error)}, 503)
     except Exception:
         return _json_response({"detail": "Image analysis could not be completed."}, 500)
 
@@ -61,6 +63,8 @@ def explain(request: HttpRequest) -> JsonResponse:
         prediction = classify_image(image.read())
     except ValueError as error:
         return _json_response({"detail": str(error)}, 400)
+    except FileNotFoundError as error:
+        return _json_response({"detail": str(error)}, 503)
     except Exception:
         return _json_response({"detail": "Image analysis could not be completed."}, 500)
 
