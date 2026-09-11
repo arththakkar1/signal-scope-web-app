@@ -2,7 +2,6 @@
 
 This document outlines the mandatory requirements and optional extensions targeted by SignalScope.
 
-Manan is ma non
 
 ## 1. Feature Map Flowchart
 
