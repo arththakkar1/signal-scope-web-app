@@ -30,8 +30,10 @@ flowchart LR
     end
 ```
 
-## 2. Model Selection
-We prioritize backbones that handle both spatial and frequency artifacts:
+## 2. Current Baseline and Planned Model Selection
+The runnable baseline is `SimpleCNN`, a two-convolution JAX/Flax classifier operating on normalized 224×224 RGB images. It is connected to Django for end-to-end development but currently initializes random parameters and is not a valid detector.
+
+Future experiments should prioritize backbones that handle both spatial and frequency artifacts:
 - **Vision Transformers (ViT):** Excellent at capturing global context and subtle inconsistencies across the image.
 - **Robust CNNs:** (e.g., EfficientNet, ConvNeXt) which provide strong baseline performance and computational efficiency.
 

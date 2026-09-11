@@ -859,6 +859,9 @@ Do not hide known failure cases.
 
   Deployment              Baseline connected      Django API + Next.js UI
                                                   are connected locally
+
+  Model checkpoint        Pending                 Django currently creates
+                                                  random baseline parameters
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------

@@ -15,8 +15,8 @@ sequenceDiagram
     User->>Frontend UI: Uploads Image
     Frontend UI->>Backend API: POST /predict (Image)
     Backend API->>Backend API: Validate & Pre-process
-    Backend API->>ML Model: Request Inference
-    ML Model-->>Backend API: Return Calibrated Verdict
+    Backend API->>ML Model: Request inference
+    ML Model-->>Backend API: Return baseline probabilities
     
     opt If Module A Enabled
         Backend API->>Explainer: Request Explanation
@@ -30,5 +30,5 @@ sequenceDiagram
 ## 2. Core Actions
 - **Upload:** Users can drag-and-drop images or upload them via standard dialogs.
 - **Analysis State:** During analysis, users see a non-blocking loading state indicating processing.
-- **Verdict Display:** The prediction is displayed boldly but responsibly. The system avoids definitive statements (like "100% fake") and instead uses calibrated phrasing.
-- **Explanation Review:** If visual cues are found (e.g., warped text, anatomical errors), the user can view the heat-map overlay on their image.
+- **Verdict Display:** The UI uses likelihood wording and, while the model remains untrained, displays a development-baseline warning.
+- **Explanation Review:** Heat-map overlay and grounded visual cues are planned; the current explanation endpoint returns limitation text instead of fabricated cues.
