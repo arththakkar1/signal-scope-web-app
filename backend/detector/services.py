@@ -17,20 +17,22 @@ if str(PROJECT_ROOT) not in sys.path:
 from model.training.cifake_model import build_model, checkpoint_path, evaluation_transform
 
 _MODEL: torch.nn.Module | None = None
+_MODEL_IS_TRAINED: bool | None = None
 
 
-def get_model() -> torch.nn.Module:
-    """Load the validated CIFAKE checkpoint once per Django process."""
-    global _MODEL
+def get_model() -> tuple[torch.nn.Module, bool]:
+    """Load the trained checkpoint if available, otherwise use a safe baseline."""
+    global _MODEL, _MODEL_IS_TRAINED
     if _MODEL is None:
         path = checkpoint_path()
-        if not path.exists():
-            raise FileNotFoundError("No trained model checkpoint is available.")
-        checkpoint = torch.load(path, map_location="cpu", weights_only=True)
         _MODEL = build_model(pretrained=False)
-        _MODEL.load_state_dict(checkpoint["model_state_dict"])
+        _MODEL_IS_TRAINED = False
+        if path.exists():
+            checkpoint = torch.load(path, map_location="cpu", weights_only=True)
+            _MODEL.load_state_dict(checkpoint["model_state_dict"])
+            _MODEL_IS_TRAINED = True
         _MODEL.eval()
-    return _MODEL
+    return _MODEL, bool(_MODEL_IS_TRAINED)
 
 
 def preprocess_image(image_bytes: bytes) -> torch.Tensor:
@@ -46,12 +48,12 @@ def preprocess_image(image_bytes: bytes) -> torch.Tensor:
 def classify_image(image_bytes: bytes) -> dict[str, float | str | bool]:
     """Return the model's responsible likelihood assessment for one image."""
     image = preprocess_image(image_bytes)
-    model = get_model()
+    model, is_trained_model = get_model()
     with torch.inference_mode():
         probabilities = torch.softmax(model(image), dim=1).numpy()[0]
 
-    real_probability = float(probabilities[0])
-    ai_probability = float(probabilities[1])
+    ai_probability = float(probabilities[0])
+    real_probability = float(probabilities[1])
     is_ai = ai_probability > 0.5
     confidence = ai_probability if is_ai else real_probability
 
@@ -61,5 +63,5 @@ def classify_image(image_bytes: bytes) -> dict[str, float | str | bool]:
         "ai_probability": round(ai_probability * 100, 2),
         "real_probability": round(real_probability * 100, 2),
         "threshold_used": 0.5,
-        "is_trained_model": True,
+        "is_trained_model": is_trained_model,
     }

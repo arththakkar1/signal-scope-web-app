@@ -26,9 +26,11 @@ def training_transform() -> v2.Compose:
         [
             v2.ToImage(),
             v2.ToDtype(torch.float32, scale=True),
-            v2.Resize((IMAGE_SIZE, IMAGE_SIZE), antialias=True),
+            v2.RandomResizedCrop((IMAGE_SIZE, IMAGE_SIZE), scale=(0.75, 1.0), ratio=(0.9, 1.1), antialias=True),
             v2.RandomHorizontalFlip(),
+            v2.RandomRotation(10),
             v2.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.05),
+            v2.GaussianBlur(kernel_size=3, sigma=(0.1, 1.2)),
             v2.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
         ]
     )

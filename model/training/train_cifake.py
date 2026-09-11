@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,11 @@ import torch
 from datasets import Dataset, load_dataset
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from torch.utils.data import DataLoader
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from model.training.cifake_model import build_model, checkpoint_path, evaluation_transform, training_transform
 
@@ -71,7 +77,7 @@ def evaluate(model: torch.nn.Module, loader: DataLoader, device: torch.device) -
 
 def train(epochs: int, batch_size: int, max_train_samples: int | None) -> dict[str, float]:
     set_seed()
-    project_root = Path(__file__).resolve().parents[2]
+    project_root = PROJECT_ROOT
     cache_dir = project_root / "data" / "cifake-cache"
     dataset = load_dataset(DATASET_ID, cache_dir=str(cache_dir))
     train_split = dataset["train"]
@@ -81,9 +87,9 @@ def train(epochs: int, batch_size: int, max_train_samples: int | None) -> dict[s
 
     device = select_device()
     model = build_model(pretrained=True).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-4, weight_decay=5e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
-    loss_function = torch.nn.CrossEntropyLoss()
+    loss_function = torch.nn.CrossEntropyLoss(label_smoothing=0.08)
     train_loader = make_loader(split["train"], training_transform(), batch_size, shuffle=True)
     validation_loader = make_loader(split["test"], evaluation_transform(), batch_size, shuffle=False)
     test_loader = make_loader(dataset["test"], evaluation_transform(), batch_size, shuffle=False)

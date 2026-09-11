@@ -28,6 +28,7 @@ Health check endpoint.
 Accepts an image and returns the classification verdict.
 
 - **Request Body:** `multipart/form-data` with key `image` (file).
+- **Checkpoint behavior:** If no trained checkpoint is present, the backend serves a development baseline and returns `is_trained_model: false` rather than failing with 503.
 - **Response:**
   ```json
   {
