@@ -1,13 +1,13 @@
 # API Endpoints
 
-This document describes the REST API endpoints exposed by the SignalScope backend.
+This document describes the REST API endpoints exposed by the Django SignalScope backend. The implementation lives in `backend/detector/` and imports the JAX/Flax model pipeline directly; FastAPI is not used.
 
 ## 1. API Architecture
 ```mermaid
 flowchart LR
-    Client -->|GET /ping| API[FastAPI Server]
-    Client -->|POST /predict| API
-    Client -->|POST /explain| API
+    Client -->|GET /api/ping/| API[Django Server]
+    Client -->|POST /api/predict/| API
+    Client -->|POST /api/explain/| API
     
     API -->|JSON Status| Client
     API -->|JSON Verdict & Confidence| Client
@@ -16,32 +16,35 @@ flowchart LR
 
 ## 2. Endpoints
 
-### `GET /ping`
+### `GET /api/ping/`
 Health check endpoint.
 - **Response:** `{"status": "ok"}`
 
-### `POST /predict`
+### `POST /api/predict/`
 Accepts an image and returns the classification verdict.
 - **Request Body:** `multipart/form-data` with key `image` (file).
 - **Response:**
   ```json
   {
     "verdict": "Likely AI-generated",
-    "confidence": 0.88,
+    "confidence": 88.0,
+    "ai_probability": 88.0,
+    "real_probability": 12.0,
+    "is_trained_model": false,
     "threshold_used": 0.5
   }
   ```
 
-### `POST /explain` (Module A)
-Accepts an image and returns visual cues and a heatmap.
+### `POST /api/explain/` (development placeholder)
+Accepts an image and returns the prediction with safe limitation text. It does not yet create a heatmap.
 - **Request Body:** `multipart/form-data` with key `image` (file).
 - **Response:**
   ```json
   {
-    "heatmap_url": "/static/heatmaps/uuid.png",
+    "verdict": "Likely AI-generated",
     "visual_cues": [
-      "Implausible textures detected in the background.",
-      "Lighting inconsistencies around the primary object."
+      "Explanation heatmaps are not available in the current baseline.",
+      "This assessment must not be treated as proof of image provenance."
     ]
   }
   ```

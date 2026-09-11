@@ -29,9 +29,8 @@ Our proposed system is composed of several modules:
 
 1. **Input Processing:** Accepts an image along with optional metadata. Pre-processing prepares the image for detection.
 2. **CV Detector (ML Backend):** A computer-vision backbone (CNN/ViT based) performs the real-vs-synthetic classification.
-3. **Calibration:** Produces a calibrated confidence score to frame the verdict responsibly as a likelihood.
-4. **Explainer:** Generates a heat-map and localized textual explanations highlighting suspicious visual cues.
-5. **Responsible UI (Frontend):** A minimal, user-friendly interface that displays the verdict, confidence score, and visual explanations without fabricated certainty.
+3. **Django API:** Receives images in memory and returns the detector's likelihood assessment through JSON endpoints.
+4. **Responsible UI (Frontend):** A Next.js upload interface calls the Django API and displays its verdict and class probabilities with a development-baseline warning.
 
 ---
 
@@ -62,10 +61,12 @@ SignalScope/
 
 ## Core and Bonus Modules
 
-- [x] **Core Requirement:** Real-vs-AI-generated image classification with a confidence score.
+- [x] **Baseline integration:** Django exposes the JAX/Flax detector and the frontend can submit an image to it.
 - [ ] **Module A - Faithful Explanation:** Heat-map and text-based explanations of visual cues.
 - [ ] **Module C - Robustness to Degradation:** Ensuring high performance against JPEG compression, resizing, and screenshots.
-- [ ] **Module F - Deployable Interface:** Responsible drag-and-drop web UI.
+- [x] **Module F - Basic interface:** Responsible upload-and-result web UI.
+
+> **Current model status:** The connected API initializes an untrained `SimpleCNN` baseline. Its responses exercise the complete integration but are not valid detection results. Trained checkpoint loading, calibration, and evaluation are still required before use outside development.
 
 *(Checkboxes indicate currently implemented or planned features).*
 
@@ -97,14 +98,23 @@ cd signal-scope-web-app
 pip install -r requirements.txt
 ```
 
-### 2. Run the Web Interface
-*(Coming soon: Commands to start the FastAPI/Flask backend and React/Vue frontend).*
+### 2. Run the Django API and Web Interface
+In one terminal:
+```bash
+python3 backend/manage.py runserver 8000
+```
+
+In another terminal:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`. The frontend sends `multipart/form-data` to Django at `http://localhost:8000/api/predict/`. To use a different API address, set `NEXT_PUBLIC_API_URL` in `frontend/.env.local`.
 
 ### 3. Run Predictions
-Use the CLI prediction script (to be added in `model/predict/`):
-```bash
-python model/predict/predict.py --image path/to/image.jpg
-```
+Use the web interface above or send an image with the `image` multipart field to `POST /api/predict/`.
 
 ---
 

@@ -9,8 +9,8 @@ flowchart TD
     A[Clone Repository] --> B[Install Dependencies]
     B --> C[Download Model Weights]
     C --> D[Configure Environment Variables]
-    D --> E[Start FastAPI/Flask Server]
-    E --> F[Health Check Endpoint /ping]
+    D --> E[Start Django Server]
+    E --> F[Health Check Endpoint /api/ping/]
     F --> G[Ready for Traffic]
 ```
 
@@ -21,9 +21,9 @@ flowchart TD
    source venv/bin/activate
    pip install -r requirements.txt
    ```
-2. **Model Weights:** Ensure the `.pth` or `.onnx` model weights are placed in `model/weights/`.
-3. **Start the Server:** Use Uvicorn to run the FastAPI application:
+2. **Model Weights:** The current baseline initializes model parameters in memory. Add a validated checkpoint-loading step before deployment; do not present baseline outputs as production predictions.
+3. **Start the Server:** Use Django's development server:
    ```bash
-   uvicorn src.backend.main:app --host 0.0.0.0 --port 8000 --reload
+   python3 backend/manage.py runserver 8000
    ```
-4. **Verify:** Navigate to `http://localhost:8000/docs` to view the Swagger UI and test the API endpoints.
+4. **Verify:** Request `http://localhost:8000/api/ping/`, then submit an image as multipart form field `image` to `POST /api/predict/`.

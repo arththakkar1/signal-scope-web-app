@@ -1,8 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is the SignalScope web interface. It is a Next.js application that uploads an image to the Django backend and presents the returned likelihood assessment responsibly.
 
 ## Getting Started
 
-First, run the development server:
+First, start the Django API from the repository root:
+
+```bash
+python3 backend/manage.py runserver 8000
+```
+
+Then run the frontend development server:
 
 ```bash
 npm run dev
@@ -14,9 +20,9 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser. By default, requests go to `http://localhost:8000/api`. Set `NEXT_PUBLIC_API_URL` in `.env.local` to target another Django deployment.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The current detector is an untrained development baseline. The UI deliberately displays this limitation and must not be presented as a production authenticity detector.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

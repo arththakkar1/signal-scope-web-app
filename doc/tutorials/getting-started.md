@@ -9,7 +9,7 @@ flowchart TD
     A[Install Python 3.10+] --> B[Clone Git Repo]
     B --> C[Create Virtual Env]
     C --> D[Install requirements.txt]
-    D --> E[Run predict.py on sample image]
+    D --> E[Start Django API and Next.js UI]
 ```
 
 ## 2. Step-by-Step Instructions
@@ -32,15 +32,17 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**Step 4: Run a Prediction**
-We have provided a sample script to test the model on a single image.
+**Step 4: Start the Django API**
 ```bash
-python model/predict/predict.py --image sample.jpg
+python3 backend/manage.py runserver 8000
 ```
-*Expected Output:*
-```json
-{
-  "verdict": "Likely AI-generated",
-  "confidence": 0.92
-}
+
+**Step 5: Start the frontend**
+Open another terminal and run:
+```bash
+cd frontend
+npm install
+npm run dev
 ```
+
+Open `http://localhost:3000`, choose an image, and select **Analyze image**. The current model is an untrained integration baseline; its output validates the request path only and must not be used as a real authenticity assessment.

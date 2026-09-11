@@ -857,8 +857,8 @@ Do not hide known failure cases.
 
   Multimodal              TBD                     Optional
 
-  Deployment              Planned                 Supports technical
-                                                  implementation and UX
+  Deployment              Baseline connected      Django API + Next.js UI
+                                                  are connected locally
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -917,7 +917,7 @@ team discussion:
 -   [ ] Real-vs-AI classifier
 -   [ ] Confidence score
 -   [ ] Proper train/validation split
--   [ ] Prediction interface
+-   [x] Baseline prediction interface (Django + Next.js)
 -   [ ] Overall ROC-AUC
 -   [ ] Unseen-generator ROC-AUC
 -   [ ] Macro-F1

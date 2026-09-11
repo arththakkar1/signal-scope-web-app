@@ -17,7 +17,8 @@ flowchart TD
     H --> I[Heat-map Generation]
     H --> J[Visual Cue Extraction]
     
-    G --> K[Responsible UI]
+    G --> L[Django JSON API]
+    L --> K[Responsible UI]
     I --> K
     J --> K
     
@@ -48,5 +49,6 @@ flowchart TD
 - **Calibrated Verdict:** Converts raw logits into calibrated confidence scores (e.g., using Platt scaling or Isotonic Regression) to prevent over-confidence.
 - **Explainer:** Leverages techniques like Grad-CAM to generate visual heat-maps of suspicious regions.
 
-## 5. User Interface
-- **Responsible UI:** Focuses on framing results as likelihoods (e.g., "Likely AI-generated - confidence 88%") to adhere to Trust & Safety standards.
+## 5. Django API and User Interface
+- **Django API:** The current implementation accepts an in-memory upload at `/api/predict/`, applies ImageNet-style normalization, and calls the JAX/Flax model.
+- **Responsible UI:** The Next.js interface uploads an image to Django and frames results as likelihoods. It warns when inference comes from the untrained development baseline.
