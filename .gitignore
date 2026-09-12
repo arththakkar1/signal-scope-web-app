@@ -45,3 +45,5 @@ yarn-error.log*
 /data/
 /model/checkpoints/
 next-env.d.ts
+doc/bug_report.md
+doc/training_explanation.md
