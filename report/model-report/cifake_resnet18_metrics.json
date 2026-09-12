@@ -1,0 +1,9 @@
+{
+  "device": "cuda",
+  "best_validation_auc": 0.9984372800000001,
+  "test": {
+    "roc_auc": 0.9981623449999999,
+    "accuracy": 0.98155,
+    "macro_f1": 0.9815489201966823
+  }
+}
