@@ -6,7 +6,7 @@ from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .services import classify_image
+from services import classify_image
 
 
 MAX_UPLOAD_SIZE = 10 * 1024 * 1024
