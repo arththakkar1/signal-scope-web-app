@@ -13,7 +13,7 @@ CLASS_NAMES = ("AI-generated", "real")
 
 def load_clip_backbone():
     """Load pretrained CLIP ViT-B-32 encoder and its transform."""
-    model, _, preprocess = open_clip.create_model_and_transforms('ViT-B-32', pretrained='openai')
+    model, _, preprocess = open_clip.create_model_and_transforms('ViT-B-32-quickgelu', pretrained='openai')
     # Freeze every parameter
     model.requires_grad_(False)
     model.eval()
