@@ -96,7 +96,7 @@ def train(epochs: int, batch_size: int, max_train_samples: int | None, num_worke
     unseen_cache = project_root / "data" / "unseen-cache"
     train_parquet = hf_hub_download(
         repo_id="julienlucas/midjourney-dalle-sd-dataset",
-        filename="data/train-00000-of-00001.parquet",
+        filename="data/train-00000-of-00003.parquet",
         repo_type="dataset",
         cache_dir=str(unseen_cache),
     )
