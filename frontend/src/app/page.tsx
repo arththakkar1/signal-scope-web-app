@@ -257,10 +257,12 @@ export default function Home() {
           fileName={file?.name}
         />
         
-        <ResultSection 
-          prediction={prediction}
-          imageUrl={previewUrl}
-        />
+        <div id="results">
+          <ResultSection 
+            prediction={prediction}
+            imageUrl={previewUrl}
+          />
+        </div>
         
         <InformationSection />
         

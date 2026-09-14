@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Activity } from "lucide-react";
+import ScrollToLink from "@/components/ScrollToLink";
 
 export function Footer() {
   return (
@@ -21,9 +24,21 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-ink text-sm mb-4 tracking-tight">Product</h3>
             <ul className="space-y-3">
-              <li><Link href="#analyze" className="text-body-sm text-text-secondary hover:text-ink transition-colors">Analyze</Link></li>
-              <li><Link href="#history" className="text-body-sm text-text-secondary hover:text-ink transition-colors">History</Link></li>
-              <li><Link href="#about" className="text-body-sm text-text-secondary hover:text-ink transition-colors">About</Link></li>
+              <li>
+                <ScrollToLink to="#hero" className="text-body-sm text-text-secondary hover:text-ink transition-colors">
+                  Analyze
+                </ScrollToLink>
+              </li>
+              <li>
+                <ScrollToLink to="#results" className="text-body-sm text-text-secondary hover:text-ink transition-colors">
+                  Results
+                </ScrollToLink>
+              </li>
+              <li>
+                <ScrollToLink to="#about" className="text-body-sm text-text-secondary hover:text-ink transition-colors">
+                  About
+                </ScrollToLink>
+              </li>
             </ul>
           </div>
           

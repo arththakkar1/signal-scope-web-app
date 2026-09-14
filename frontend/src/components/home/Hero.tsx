@@ -1,7 +1,10 @@
 import { ChangeEvent, DragEvent, useState } from "react";
-import { FileSearch, UploadCloud } from "lucide-react";
+import { FileSearch, UploadCloud, ArrowDown } from "lucide-react";
 import { TypewriterRotate } from "@/components/ui/typewriter-rotate";
 import { cn } from "@/lib/utils";
+import { StarsBackground } from "../animate-ui/components/backgrounds/stars";
+import ScrollToLink from "@/components/ScrollToLink";
+import { toast } from "sonner";
 
 interface HeroProps {
   isLoading?: boolean;
@@ -14,6 +17,16 @@ interface HeroProps {
 
 export function Hero({ isLoading = false, error = null, usageLimitReached = false, onFileSelect, onAnalyze, fileName }: HeroProps) {
   const [isDragging, setIsDragging] = useState(false);
+
+  const handleAnalyzeClick = () => {
+    if (!fileName) {
+      toast.error("Please upload an image first", {
+        description: "Drop or select a JPG, PNG, or WEBP file above.",
+      });
+      return;
+    }
+    onAnalyze?.();
+  };
 
   const words = [
     "Synthetic",
@@ -81,8 +94,13 @@ export function Hero({ isLoading = false, error = null, usageLimitReached = fals
   };
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden flex flex-col items-center text-center px-4 w-full">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/50 via-bg to-bg -z-10" />
+    <section id="hero" className="min-h-screen py-20 md:py-28 relative overflow-hidden flex flex-col items-center justify-center text-center px-4 w-full">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/50 via-bg to-bg -z-20" />
+      <StarsBackground
+        className="absolute inset-0 -z-10 text-black dark:text-white"
+        starColor="currentColor"
+        pointerEvents={false}
+      />
       
       <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/50 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-400 mb-8 backdrop-blur-sm">
         <FileSearch className="h-3.5 w-3.5" />
@@ -167,19 +185,37 @@ export function Hero({ isLoading = false, error = null, usageLimitReached = fals
           />
         </label>
         
-        {!!fileName && !isLoading && (
-          <button
-            onClick={onAnalyze}
-            disabled={isLoading || usageLimitReached}
-            className={cn(
-              "mt-6 w-full py-4 rounded-xl font-bold text-lg text-white shadow-lg transition-all duration-300",
-              usageLimitReached 
-                ? "bg-gray-400 cursor-not-allowed opacity-70"
-                : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:-translate-y-1"
-            )}
-          >
-            Analyze Image
-          </button>
+        {!isLoading && (
+          fileName ? (
+            <ScrollToLink to="#results" className="mt-6">
+              <button
+                onClick={handleAnalyzeClick}
+                disabled={isLoading || usageLimitReached}
+                className={cn(
+                  "group relative max-w-full inline-flex items-center justify-center gap-3 rounded-full text-white font-semibold py-4 px-5 text-lg shadow-lg overflow-hidden transition-all duration-300",
+                  usageLimitReached
+                    ? "bg-gray-400 cursor-not-allowed opacity-70"
+                    : "bg-blue-700 hover:bg-black dark:hover:bg-white dark:hover:text-black"
+                )}
+              >
+                <span className="relative flex shrink-0 items-center justify-center w-[30px] h-[30px] rounded-full bg-white text-blue-800 group-hover:text-black dark:group-hover:text-blue-800 overflow-hidden transition-colors duration-300">
+                  <ArrowDown className="w-4 h-4 transition-transform duration-300 ease-in-out group-hover:translate-y-[150%]" strokeWidth={3} />
+                  <ArrowDown className="absolute w-4 h-4 transition-transform duration-300 ease-in-out delay-100 -translate-y-[150%] group-hover:translate-y-0" strokeWidth={3} />
+                </span>
+                Analyze Image
+              </button>
+            </ScrollToLink>
+          ) : (
+            <button
+              onClick={handleAnalyzeClick}
+              className="group relative mt-6 max-w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 text-white font-semibold py-4 px-5 text-lg shadow-lg overflow-hidden transition-all duration-300 hover:bg-blue-600/80"
+            >
+              <span className="relative flex shrink-0 items-center justify-center w-[30px] h-[30px] rounded-full bg-white text-blue-800 overflow-hidden">
+                <ArrowDown className="w-4 h-4" strokeWidth={3} />
+              </span>
+              Analyze Image
+            </button>
+          )
         )}
         
         {error && (

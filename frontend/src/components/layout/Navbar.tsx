@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Activity } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import ScrollToLink from "@/components/ScrollToLink";
 
 type UsageInfo = {
   used: number;
@@ -28,12 +31,20 @@ export function Navbar({ usage, onLoginClick, onSignupClick, onLogoutClick }: Na
             <span>SIGNALSCOPE</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="#working" className="text-text-secondary hover:text-ink transition-colors">
+            <ScrollToLink
+              to="#working"
+              className="text-text-secondary hover:text-ink transition-colors"
+              whileHover={{ scale: 1.03 }}
+            >
               Working
-            </Link>
-            <Link href="#about" className="text-text-secondary hover:text-ink transition-colors">
+            </ScrollToLink>
+            <ScrollToLink
+              to="#about"
+              className="text-text-secondary hover:text-ink transition-colors"
+              whileHover={{ scale: 1.03 }}
+            >
               About
-            </Link>
+            </ScrollToLink>
           </nav>
         </div>
         <div className="flex items-center gap-4">

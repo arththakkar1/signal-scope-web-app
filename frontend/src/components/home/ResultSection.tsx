@@ -20,7 +20,7 @@ export function ResultSection({ prediction, imageUrl }: ResultSectionProps) {
   const isAI = prediction.ai_probability > 50;
 
   return (
-    <section className="py-16 md:py-24 border-t border-border bg-surface">
+    <section id="results" className="min-h-screen py-16 md:py-24 border-t border-border bg-surface flex flex-col justify-center">
       <div className="container max-w-[1000px] mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <p className="text-mono-sm text-text-muted uppercase tracking-widest mb-4">Analysis Complete</p>
@@ -48,7 +48,13 @@ export function ResultSection({ prediction, imageUrl }: ResultSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-[900px] mx-auto mt-16">
           <div className="rounded-[12px] border border-border overflow-hidden shadow-1 bg-surface-subtle p-2">
             {imageUrl && (
-              <img src={imageUrl} alt="Analyzed image" className="w-full h-auto rounded-[8px] border border-border/50" />
+              <div className="relative w-full h-[320px] rounded-[8px] overflow-hidden border border-border/50">
+                <img
+                  src={imageUrl}
+                  alt="Analyzed image"
+                  className="absolute inset-0 w-full h-full object-contain bg-surface-subtle"
+                />
+              </div>
             )}
           </div>
 
