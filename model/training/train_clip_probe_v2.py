@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn as nn
+from huggingface_hub import hf_hub_download
 from datasets import Dataset, load_dataset, concatenate_datasets
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from torch.utils.data import DataLoader
@@ -93,7 +94,22 @@ def train(epochs: int, batch_size: int, max_train_samples: int | None, num_worke
     
     # Load julienlucas dataset (MIT licensed diverse real/multi-generator dataset)
     unseen_cache = project_root / "data" / "unseen-cache"
-    jl_dataset = load_dataset("julienlucas/midjourney-dalle-sd-dataset", cache_dir=str(unseen_cache))
+    train_parquet = hf_hub_download(
+        repo_id="julienlucas/midjourney-dalle-sd-dataset",
+        filename="data/train-00000-of-00001.parquet",
+        repo_type="dataset",
+        cache_dir=str(unseen_cache),
+    )
+    test_parquet = hf_hub_download(
+        repo_id="julienlucas/midjourney-dalle-sd-dataset",
+        filename="data/test-00000-of-00001.parquet",
+        repo_type="dataset",
+        cache_dir=str(unseen_cache),
+    )
+    jl_dataset = load_dataset(
+        "parquet",
+        data_files={"train": train_parquet, "test": test_parquet},
+    )
     
     # Both datasets use 0=fake, 1=real. Cast julienlucas to match CIFAKE's exact feature types.
     jl_train = jl_dataset["train"].cast(cifake_dataset["train"].features)
