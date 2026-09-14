@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Activity } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 type UsageInfo = {
   used: number;
@@ -27,11 +28,8 @@ export function Navbar({ usage, onLoginClick, onSignupClick, onLogoutClick }: Na
             <span>SIGNALSCOPE</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="#analyze" className="text-text-secondary hover:text-ink transition-colors">
-              Analyze
-            </Link>
-            <Link href="#history" className="text-text-secondary hover:text-ink transition-colors">
-              History
+            <Link href="#working" className="text-text-secondary hover:text-ink transition-colors">
+              Working
             </Link>
             <Link href="#about" className="text-text-secondary hover:text-ink transition-colors">
               About
@@ -66,12 +64,15 @@ export function Navbar({ usage, onLoginClick, onSignupClick, onLogoutClick }: Na
               </button>
               <button 
                 onClick={onSignupClick}
-                className="bg-gradient-to-br from-blue-700 to-indigo-600 hover:from-blue-800 hover:to-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-md shadow-1 hover:shadow-2 hover:-translate-y-[1px] transition-all"
+                className="bg-neutral-900 dark:bg-white hover:bg-black dark:hover:bg-neutral-200 text-white dark:text-neutral-900 text-sm font-bold px-4 py-2 rounded-md shadow-1 hover:shadow-2 hover:-translate-y-[1px] transition-all"
               >
                 Sign Up
               </button>
             </>
           )}
+          <div className="pl-2 ml-2 border-l border-border flex items-center">
+             <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

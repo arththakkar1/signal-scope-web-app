@@ -2,7 +2,7 @@ import { ShieldCheck, Eye, Activity, FileWarning } from "lucide-react";
 
 export function InformationSection() {
   return (
-    <section id="how-it-works" className="py-24 bg-surface-subtle border-t border-border">
+    <section id="working" className="py-24 bg-surface-subtle border-t border-border">
       <div className="container max-w-[1200px] mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
           <h2 className="text-heading-xl text-ink tracking-tight mb-4">How SignalScope Works</h2>

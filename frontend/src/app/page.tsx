@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/home/Hero";
-import { UploadSection } from "@/components/home/UploadSection";
 import { ResultSection } from "@/components/home/ResultSection";
 import { InformationSection } from "@/components/home/InformationSection";
 import { AboutSection } from "@/components/home/AboutSection";
@@ -50,10 +49,11 @@ export default function Home() {
 
   // ── Authenticated Fetch Interceptor with Automatic Token Refresh ──
   const fetchWithAuth = useCallback(
-    async (url: string, options: RequestInit = {}) => {
+    async (url: string, options: RequestInit = {}, overrideToken?: string) => {
       const headers = new Headers(options.headers || {});
-      if (accessToken) {
-        headers.set("Authorization", `Bearer ${accessToken}`);
+      const tokenToUse = overrideToken || accessToken;
+      if (tokenToUse) {
+        headers.set("Authorization", `Bearer ${tokenToUse}`);
       }
 
       let response = await fetch(url, {
@@ -94,9 +94,9 @@ export default function Home() {
   );
 
   // ── Fetch usage status ──
-  const fetchUsage = useCallback(async () => {
+  const fetchUsage = useCallback(async (overrideToken?: string) => {
     try {
-      const res = await fetchWithAuth(`${apiUrl}/usage/`);
+      const res = await fetchWithAuth(`${apiUrl}/usage/`, {}, overrideToken);
       if (res.ok) {
         const data = await res.json();
         setUsage(data as UsageInfo);
@@ -129,24 +129,18 @@ export default function Home() {
   }, [fetchUsage]);
 
   // ── File selection ──
-  function selectFile(event: ChangeEvent<HTMLInputElement>) {
-    const selected = event.target.files?.[0] ?? null;
-    setFile(selected);
+  function selectFile(selectedFile: File) {
+    setFile(selectedFile);
     setPrediction(null);
     setError(null);
-    setPreviewUrl(selected ? URL.createObjectURL(selected) : null);
+    setPreviewUrl(URL.createObjectURL(selectedFile));
   }
 
-  // ── Analyze image ──
-  async function analyze(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!file) {
-      setError("Choose an image before starting an analysis.");
-      return;
-    }
+  // ── Analyze Image ──
+  async function analyzeImage() {
+    if (!file) return;
 
     setIsLoading(true);
-    setError(null);
     const formData = new FormData();
     formData.append("image", file);
 
@@ -218,7 +212,7 @@ export default function Home() {
 
       setShowAuthModal(false);
       setAuthError(null);
-      await fetchUsage();
+      await fetchUsage(body.access);
     } catch {
       setAuthError("Could not connect to the server.");
     } finally {
@@ -254,16 +248,13 @@ export default function Home() {
       />
       
       <main className="flex-1 w-full flex flex-col">
-        <Hero />
-        
-        <UploadSection 
-          file={file}
-          previewUrl={previewUrl}
-          error={error}
+        <Hero 
           isLoading={isLoading}
-          onFileSelect={selectFile}
-          onAnalyze={analyze}
+          error={error}
           usageLimitReached={limitReached}
+          onFileSelect={selectFile}
+          onAnalyze={analyzeImage}
+          fileName={file?.name}
         />
         
         <ResultSection 
