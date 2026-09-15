@@ -7,3 +7,5 @@ Django>=5.2,<5.3
 datasets>=4.0,<5.0
 open_clip_torch
 django-cors-headers
+djangorestframework
+djangorestframework-simplejwt

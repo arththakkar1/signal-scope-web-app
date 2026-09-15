@@ -1,9 +1,9 @@
 {
-  "device": "cuda",
-  "best_validation_auc": 0.9984372800000001,
+  "device": "mps",
+  "best_validation_auc": 0.0,
   "test": {
-    "roc_auc": 0.9981623449999999,
-    "accuracy": 0.98155,
-    "macro_f1": 0.9815489201966823
+    "roc_auc": 0.58896104,
+    "accuracy": 0.55285,
+    "macro_f1": 0.5523217743888413
   }
 }
