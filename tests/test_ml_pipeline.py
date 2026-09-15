@@ -1,7 +1,13 @@
 from io import BytesIO
+from pathlib import Path
+import sys
 
 import torch
 from PIL import Image
+
+BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
 from detector import services
 from model.training.cifake_model import build_model, evaluation_transform
@@ -89,3 +95,9 @@ def test_preprocess_image_rejects_invalid_bytes():
         assert "valid image" in str(error)
     else:
         raise AssertionError("Invalid input bytes should raise ValueError")
+
+
+if __name__ == "__main__":
+    import pytest
+
+    raise SystemExit(pytest.main([__file__]))

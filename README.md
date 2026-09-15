@@ -1,145 +1,19 @@
 # SignalScope
 
-Telling Real From Synthetic in the Age of Generative Media.
+**Smart India Hackathon 2026 — Problem Statement 2: "Telling Real From Synthetic in the Age of Generative Media"**
 
-SignalScope is a system designed to accept an image and classify it as **Real** or **AI-generated**. Built for the SIH 2026 Challenge (Problem Statement 2), this system focuses on generalization to unseen generators, maintaining high performance on synthetic images from generators not seen during training.
+SignalScope classifies images as real or AI-generated, using a full-resolution web UI backed by a PyTorch classification pipeline.
 
-## Table of Contents
+## Stack
 
-- [Project Overview](#project-overview)
-- [Architecture](#architecture)
-- [Repository Structure](#repository-structure)
-- [Core and Bonus Modules](#core-and-bonus-modules)
-- [ML Model & Evaluation](#ml-model--evaluation)
-- [Setup & Run Instructions](#setup--run-instructions)
-- [Robustness & Limitations](#robustness--limitations)
+- **Frontend:** Next.js / TypeScript
+- **Backend:** Django (plain views)
+- **ML:** PyTorch, `open_clip`
+-python model/inference/evaluate_cifake.py
+python model/inference/evaluate_clip_probe.py
+python model/inference/evaluate_unseen_generators.py
 
----
+## Team
 
-## Project Overview
-
-The primary challenge is detecting AI-generated images, ensuring the model performs well not only on known generators but also on unseen ones. The project evaluates its success using the unseen-generator split ROC-AUC as the primary metric.
-
-**Target Users:** Journalists, Platforms, Fact-checkers, Everyday users.
-
----
-
-## Architecture
-
-Our proposed system is composed of several modules:
-
-1. **Input Processing:** Accepts an image along with optional metadata. Pre-processing prepares the image for detection.
-2. **CV Detector (ML Backend):** A computer-vision backbone (CNN/ViT based) performs the real-vs-synthetic classification.
-3. **Django API:** Receives images in memory and returns the detector's likelihood assessment through JSON endpoints.
-4. **Responsible UI (Frontend):** A Next.js upload interface calls the Django API and displays its verdict and class probabilities with a development-baseline warning.
-
----
-
-## Repository Structure
-
-```text
-SignalScope/
-│
-├── README.md                 # Project documentation
-├── context.md                # Full project context and requirements
-├── doc/                      # Detailed system documentation
-│
-├── src/                      # Backend and Frontend application code
-│
-├── model/                    # ML Model components
-│   ├── training/             # Training scripts and notebooks
-│   ├── inference/            # Model inference pipeline
-│   └── predict/              # Prediction interface
-│
-├── report/                   # Model reports and sample evaluations
-│
-├── requirements.txt          # Python dependencies
-│
-└── tests/                    # Unit and integration tests
-```
-
----
-
-## Core and Bonus Modules
-
-- [x] **Baseline integration:** Django exposes the PyTorch/ResNet18 detector and the frontend can submit an image to it.
-- [ ] **Module A - Faithful Explanation:** Heat-map and text-based explanations of visual cues.
-- [ ] **Module C - Robustness to Degradation:** Ensuring high performance against JPEG compression, resizing, and screenshots.
-- [x] **Module F - Basic interface:** Responsible upload-and-result web UI.
-
-> **Current model status:** The connected API loads a PyTorch/ResNet18 checkpoint when one is present. If no trained checkpoint exists yet, the API still exercises the full request path but should be treated as a development baseline, not a production detector.
-
-_(Checkboxes indicate currently implemented or planned features)._
-
----
-
-## ML Model & Evaluation
-
-- **Primary Metric:** Unseen-generator ROC-AUC.
-- **Dataset:** CIFAKE-style dataset (balanced between real and fake images).
-- **Training Strategy:** Transfer learning using robust CV backbones, with heavy data augmentation to improve generalization.
-
-### Placeholder Results
-
-| Metric                          | Score |
-| ------------------------------- | ----- |
-| Overall AUC                     | _TBD_ |
-| Unseen-generator AUC            | _TBD_ |
-| Macro-F1                        | _TBD_ |
-| Accuracy (at optimal threshold) | _TBD_ |
-| False-Positive Rate             | _TBD_ |
-
----
-
-## Setup & Run Instructions
-
-### 1. Clone and Install Dependencies
-
-```bash
-git clone https://github.com/arththakkar1/signal-scope-web-app.git
-cd signal-scope-web-app
-pip install -r requirements.txt
-```
-
-### 2. Run the Django API and Web Interface
-
-In one terminal:
-
-```bash
-python3 backend/manage.py runserver 8000
-```
-
-In another terminal:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open `http://localhost:3000`. The frontend sends `multipart/form-data` to Django at `http://localhost:8000/api/predict/`. To use a different API address, set `NEXT_PUBLIC_API_URL` in `frontend/.env.local`.
-
-### 3. Run Predictions
-
-Use the web interface above or send an image with the `image` multipart field to `POST /api/predict/`.
-
----
-
-## Robustness & Limitations
-
-### Robustness
-
-We actively test against common image degradations:
-
-- **JPEG Compression:** Maintaining performance across quality levels.
-- **Resizing & Screenshots:** Ensuring artifact-based detection doesn't fail on scaled images.
-
-### Known Limitations
-
-- The model may struggle with highly compressed images or novel generators that do not exhibit standard spectral artifacts.
-- It is not designed to authenticate real-world events or verify the identity of specific people (face-swap deepfakes).
-
----
-
-**Demo Video:** [Link to Demo] (TBD)  
-**Deployed Application:** [Link to Web App] (TBD)
+- **ML + backend:** Supan
+- **Frontend:** Suhana, Manan, Raj

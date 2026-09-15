@@ -1,0 +1,9 @@
+{
+  "device": "mps",
+  "best_validation_auc": 0.0,
+  "test": {
+    "roc_auc": 0.58896104,
+    "accuracy": 0.55285,
+    "macro_f1": 0.5523217743888413
+  }
+}
