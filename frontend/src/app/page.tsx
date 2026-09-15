@@ -362,7 +362,7 @@ export default function Home() {
               <button 
                 type="submit" 
                 disabled={authLoading}
-                className="mt-2 w-full bg-ink hover:bg-black text-inverse font-semibold py-3 rounded-[10px] shadow-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-2 w-full bg-ink text-inverse font-semibold py-3 rounded-[10px] shadow-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {authLoading
                   ? "Please wait…"

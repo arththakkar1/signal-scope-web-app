@@ -43,7 +43,6 @@ yarn-error.log*
 
 # Downloaded ML datasets and trained checkpoints can be regenerated.
 /data/
-/model/checkpoints/
 next-env.d.ts
 doc/bug_report.md
 doc/training_explanation.md
