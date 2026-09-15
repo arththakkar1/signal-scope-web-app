@@ -12,7 +12,7 @@ flowchart LR
 
     API -->|JSON Status| Client
     API -->|JSON Verdict & Confidence| Client
-    API -->|JSON Heatmap URL & Text| Client
+    API -->|JSON Visual Cues| Client
 ```
 
 ## 2. Endpoints
@@ -36,7 +36,7 @@ Accepts an image and returns the classification verdict.
     "confidence": 88.0,
     "ai_probability": 88.0,
     "real_probability": 12.0,
-    "is_trained_model": false,
+    "is_trained_model": true,
     "threshold_used": 0.5
   }
   ```
@@ -48,11 +48,17 @@ Accepts an image and returns the prediction with safe limitation text. It does n
 - **Request Body:** `multipart/form-data` with key `image` (file).
 - **Response:**
   ```json
-  {
+   {
     "verdict": "Likely AI-generated",
+    "confidence": 88.0,
+    "ai_probability": 88.0,
+    "real_probability": 12.0,
+    "is_trained_model": true,
+    "threshold_used": 0.5,
     "visual_cues": [
       "Explanation heatmaps are not available in the current baseline.",
       "This assessment must not be treated as proof of image provenance."
     ]
   }
+
   ```

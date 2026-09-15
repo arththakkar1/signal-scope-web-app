@@ -45,4 +45,4 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`, choose an image, and select **Analyze image**. The current model is an untrained integration baseline; its output validates the request path only and must not be used as a real authenticity assessment.
+Open `http://localhost:3000`, choose an image, and select **Analyze image**. As long as you have the trained checkpoints in the `model/checkpoints/` directory, the application will provide a real authenticity assessment.

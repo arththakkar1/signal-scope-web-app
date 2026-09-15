@@ -23,4 +23,4 @@ flowchart LR
 ## 2. Steps
 1. **Configure Pipeline:** Define the degradation parameters in the configuration file (`configs/robustness.yaml`).
 2. **Implement the suite:** Add the degradation configuration and test runner before running this protocol.
-3. **Review Results:** Record degradation-vs-accuracy curves in `report/` only after testing a trained checkpoint. Do not report results from the current untrained integration baseline.
+3. **Review Results:** Record degradation-vs-accuracy curves in `report/` using the loaded trained checkpoints.

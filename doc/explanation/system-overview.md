@@ -50,5 +50,5 @@ flowchart TD
 - **Explainer:** Leverages techniques like Grad-CAM to generate visual heat-maps of suspicious regions.
 
 ## 5. Django API and User Interface
-- **Django API:** The current implementation accepts an in-memory upload at `/api/predict/`, applies ImageNet-style normalization, and calls the JAX/Flax model.
+- **Django API:** The current implementation accepts an in-memory upload at /api/predict/, applies ImageNet-style normalization, and calls the PyTorch model.
 - **Responsible UI:** The Next.js interface uploads an image to Django and frames results as likelihoods. It warns when inference comes from the untrained development baseline.

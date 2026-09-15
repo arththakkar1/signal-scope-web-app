@@ -13,7 +13,7 @@ sequenceDiagram
     participant Explainer
     
     User->>Frontend UI: Uploads Image
-    Frontend UI->>Backend API: POST /predict (Image)
+    Frontend UI->>Backend API: POST /api/predict/ (Image)
     Backend API->>Backend API: Validate & Pre-process
     Backend API->>ML Model: Request inference
     ML Model-->>Backend API: Return baseline probabilities
@@ -30,5 +30,5 @@ sequenceDiagram
 ## 2. Core Actions
 - **Upload:** Users can drag-and-drop images or upload them via standard dialogs.
 - **Analysis State:** During analysis, users see a non-blocking loading state indicating processing.
-- **Verdict Display:** The UI uses likelihood wording and, while the model remains untrained, displays a development-baseline warning.
+- **Verdict Display:** The UI uses likelihood wording based on the model's prediction. A development-baseline warning is displayed if a trained checkpoint is not found.
 - **Explanation Review:** Heat-map overlay and grounded visual cues are planned; the current explanation endpoint returns limitation text instead of fabricated cues.

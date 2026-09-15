@@ -30,11 +30,11 @@ flowchart LR
     end
 ```
 
-## 2. Current Baseline and Planned Model Selection
-The runnable baseline is `SimpleCNN`, a two-convolution JAX/Flax classifier operating on normalized 224×224 RGB images. It is connected to Django for end-to-end development but currently initializes random parameters and is not a valid detector.
+## 2. Current Baseline and Experimental Models
+The runnable baseline uses a ResNet18 PyTorch classifier operating on normalized 224×224 RGB images. It is connected to Django for end-to-end inference and loads the trained checkpoint (`cifake_resnet18.pt`) to provide live predictions on the web interface.
 
-Future experiments should prioritize backbones that handle both spatial and frequency artifacts:
-- **Vision Transformers (ViT):** Excellent at capturing global context and subtle inconsistencies across the image.
+In addition to the baseline, the project actively evaluates experimental models to improve generalization:
+- **CLIP Linear Probes (`clip_linear_probe.pt` & `v2`):** Vision Transformer-based models being trained and evaluated offline (via scripts like `evaluate_unseen_generators.py`) to test robustness against unseen AI generators.
 - **Robust CNNs:** (e.g., EfficientNet, ConvNeXt) which provide strong baseline performance and computational efficiency.
 
 ## 3. Generalization Strategy

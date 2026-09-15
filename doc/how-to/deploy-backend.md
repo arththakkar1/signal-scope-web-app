@@ -22,7 +22,7 @@ flowchart TD
    source venv/bin/activate
    pip install -r requirements.txt
    ```
-2. **Model Weights:** The current baseline initializes model parameters in memory. Add a validated checkpoint-loading step before deployment; do not present baseline outputs as production predictions.
+2. **Model Weights:** Ensure that the trained model checkpoint (`cifake_resnet18.pt`) is present in `model/checkpoints/` before deployment so that the Django application provides valid predictions.
 3. **Start the Server:** Use Django's development server:
    ```bash
    python3 backend/manage.py runserver 8000
