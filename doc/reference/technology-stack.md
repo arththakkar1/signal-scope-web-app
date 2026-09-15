@@ -3,7 +3,7 @@
 This document lists the core technologies, libraries, and frameworks utilized in the SignalScope project.
 
 ## 1. Machine Learning & Data Processing
-- **PyTorch & Torchvision:** The current ResNet18 model, training step, and inference integration use these libraries.
+- **PyTorch, Torchvision & open_clip:** The current ResNet18 and CLIP probe models, training steps, and inference integrations use these libraries.
 - **Scikit-learn:** Used for computing robust evaluation metrics (ROC-AUC, Macro-F1).
 - **Pillow & Torchvision v2 Transforms:** Used for image I/O, pre-processing, and extensive data augmentation (crucial for generalization).
 ## 2. Backend Application

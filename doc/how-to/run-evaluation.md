@@ -1,6 +1,6 @@
 # How to Run Evaluation
 
-This guide describes the required evaluation process. `model/training/train_cifake.py` provides the evaluation runner and will calculate metrics on the dataset's test split, saving the output to a JSON report. Note that an alternative evaluation script exists at `model/inference/evaluate.py`, but it uses a different ML framework (JAX/Flax) and does not test the deployed PyTorch baseline.
+This guide describes the required evaluation process. Dedicated evaluation scripts such as `model/inference/evaluate_cifake.py` and `model/inference/evaluate_unseen_generators.py` provide the evaluation runners. They will calculate metrics on the dataset's test split and save the output to a JSON report.
 
 
 ## 1. Evaluation Workflow
@@ -23,5 +23,5 @@ flowchart TD
 
 ## 2. Steps
 1. **Prepare Data:** Ensure the held-out test dataset is placed in the designated directory (e.g., `data/test/`). The data must contain annotations differentiating seen vs. unseen generators.
-2. **Run Evaluation:** Execute the evaluation pipeline by running `python model/training/train_cifake.py` from the project root. This will calculate metrics on the test set and automatically output the results to `report/model-report/cifake_resnet18_metrics.json`.
+2. **Run Evaluation:** Execute the evaluation pipeline by running the evaluation scripts (e.g., `python model/inference/evaluate_cifake.py`) from the project root. This will calculate metrics on the test set and automatically output the results to the `report/model-report/` folder.
 3. **Analyze Output:** Report overall AUC, unseen-generator AUC, Macro-F1, confusion matrix, accuracy, and FPR from a trained checkpoint.

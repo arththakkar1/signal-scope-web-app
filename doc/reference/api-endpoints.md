@@ -36,7 +36,7 @@ Accepts an image and returns the classification verdict.
     "confidence": 88.0,
     "ai_probability": 88.0,
     "real_probability": 12.0,
-    "is_trained_model": false,
+    "is_trained_model": true,
     "threshold_used": 0.5
   }
   ```
@@ -53,7 +53,7 @@ Accepts an image and returns the prediction with safe limitation text. It does n
     "confidence": 88.0,
     "ai_probability": 88.0,
     "real_probability": 12.0,
-    "is_trained_model": false,
+    "is_trained_model": true,
     "threshold_used": 0.5,
     "visual_cues": [
       "Explanation heatmaps are not available in the current baseline.",
